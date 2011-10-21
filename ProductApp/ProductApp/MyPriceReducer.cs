@@ -15,6 +15,7 @@ namespace ProductApp
 
         public void ReducePrices(decimal priceReduction)
         {
+           // throw new NotImplementedException();
             foreach (Product p in repository.GetProducts())
             {
                 p.Price = Math.Max(p.Price - priceReduction, 1);
