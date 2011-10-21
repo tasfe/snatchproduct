@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Moq;
 
 namespace ProductApp.Test
 {
@@ -16,7 +17,7 @@ namespace ProductApp.Test
     public class MyPriceReducerTest
     {
 
-
+       
         private TestContext testContextInstance;
 
         /// <summary>
@@ -127,6 +128,34 @@ namespace ProductApp.Test
             foreach (Product prod in repo.GetProducts())
             {
                 Assert.IsTrue(prod.Price >= 1);
+            }
+        }
+
+        [TestMethod]
+        public void Correct_Total_Reduction_Amount2()
+        {
+            // Arrange
+            Product[] products = new Product[] {
+            new Product() { Name = "Kayak", Price = 275M},
+            new Product() { Name = "Lifejacket", Price = 48.95M},
+            new Product() { Name = "Soccer ball", Price = 19.50M},
+            new Product() { Name = "Stadium", Price = 79500M}
+            };
+            Mock<IProductRepository> mock = new Mock<IProductRepository>();
+            mock.Setup(m => m.GetProducts()).Returns(products);
+            decimal reductionAmount = 10;
+            decimal initialTotal = products.Sum(p => p.Price);
+            MyPriceReducer target = new MyPriceReducer(mock.Object);
+            // Act
+            target.ReducePrices(reductionAmount);
+            // Assert
+            Assert.AreEqual(products.Sum(p => p.Price),
+            (initialTotal - (products.Count() * reductionAmount)));
+
+            // Assert
+            foreach (Product p in products)
+            {
+                mock.Verify(m => m.UpdateProduct(p), Times.Once());
             }
         }
     }
