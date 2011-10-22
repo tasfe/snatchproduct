@@ -8,6 +8,7 @@ using System.Web.Routing;
 using Moq;
 using SportsStore.Domain.Abstract;
 using SportsStore.Domain.Entities;
+using SportsStore.Domain.Concrete;
 
 namespace SportsStore.WebUI.Infrastructure
 {
@@ -18,7 +19,6 @@ namespace SportsStore.WebUI.Infrastructure
         {
             ninjectKernel = new StandardKernel();
             AddBindings();
-
         }
 
         protected override IController GetControllerInstance(RequestContext requestContext, Type controllerType)
@@ -30,14 +30,14 @@ namespace SportsStore.WebUI.Infrastructure
         private void AddBindings()
         {
             //put addtional bindings here .
-            Mock<IProductsRepository> mock = new Mock<IProductsRepository>();
-            mock.Setup(m => m.Products).Returns(new Product[] { 
-                new Product { Name = "Football", Price = 25 },
-                new Product { Name = "Surf board", Price = 179 },
-                new Product { Name = "Running shoes", Price = 95 }
-            }.AsQueryable<Product>());
+            //Mock<IProductRepository> mock = new Mock<IProductRepository>();
+            //mock.Setup(m => m.Products).Returns(new Product[] { 
+            //    new Product { Name = "Football", Price = 25 },
+            //    new Product { Name = "Surf board", Price = 179 },
+            //    new Product { Name = "Running shoes", Price = 95 }
+            //}.AsQueryable<Product>());
 
-            ninjectKernel.Bind<IProductsRepository>().ToConstant(mock.Object);
+            ninjectKernel.Bind<IProductRepository>().To<EFProductRepository>();
         }
 
     }
