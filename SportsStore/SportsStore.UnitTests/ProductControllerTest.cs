@@ -96,7 +96,7 @@ namespace SportsStore.UnitTests
             productController.PageSize = 2;
 
             //action
-            ProductsListViewModel result = productController.List(2).Model as ProductsListViewModel;
+            ProductsListViewModel result = productController.List(null, 2).Model as ProductsListViewModel;
 
             //assert
             Product[] products = result.Products.ToArray();
@@ -127,14 +127,44 @@ namespace SportsStore.UnitTests
             productController.PageSize = 3;
 
             //action
-           ProductsListViewModel viewModel= productController.List(2).Model as ProductsListViewModel;
+            ProductsListViewModel viewModel = productController.List(null, 2).Model as ProductsListViewModel;
 
             //assert
-           PagingInfo pagingInfo = viewModel.PagingInfo;
-           Assert.AreEqual(3, pagingInfo.ItemsPerPage);//
-           Assert.AreEqual(2, pagingInfo.CurrentPage);
-           Assert.AreEqual(7, pagingInfo.TotalItems);
-           Assert.AreEqual(3, pagingInfo.TotalPages);
+            PagingInfo pagingInfo = viewModel.PagingInfo;
+            Assert.AreEqual(3, pagingInfo.ItemsPerPage);//
+            Assert.AreEqual(2, pagingInfo.CurrentPage);
+            Assert.AreEqual(7, pagingInfo.TotalItems);
+            Assert.AreEqual(3, pagingInfo.TotalPages);
+        }
+
+        [TestMethod]
+        public void Can_Filter_Products()
+        {
+            //Arrange
+            Mock<IProductRepository> mock = new Mock<IProductRepository>();
+            mock.Setup(p => p.Products).Returns(new Product[]{
+                new Product(){ ProductId=1,Name="P1", Category="Cat1"},
+                new Product(){ ProductId=2,Name="P2", Category="Cat1"},
+                new Product(){ ProductId=3,Name="P3", Category="Cat2"},
+                new Product(){ ProductId=4,Name="P4", Category="Cat2"},
+                new Product(){ ProductId=5,Name="P5", Category="Cat2"},
+                new Product(){ ProductId=6,Name="P6", Category="Cat3"},
+                new Product(){ ProductId=7,Name="P7", Category="Cat3"},
+            }.AsQueryable()
+                );
+
+            ProductController controller = new ProductController(mock.Object);
+            controller.PageSize = 2;
+
+            //Action
+           var result= controller.List("Cat2", 2).Model as ProductsListViewModel;
+
+            //Assert
+            Product [] products= result.Products.ToArray();
+            Assert.AreEqual(products.Length, 1);
+            Assert.AreEqual("Cat2", result.CurrentCategory);
+            Assert.IsTrue(products[0].Name=="P5"&&products[0].Category=="Cat2");
+
         }
     }
 }
