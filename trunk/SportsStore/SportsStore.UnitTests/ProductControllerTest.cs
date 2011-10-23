@@ -149,7 +149,7 @@ namespace SportsStore.UnitTests
                 new Product(){ ProductId=4,Name="P4", Category="Cat2"},
                 new Product(){ ProductId=5,Name="P5", Category="Cat2"},
                 new Product(){ ProductId=6,Name="P6", Category="Cat3"},
-                new Product(){ ProductId=7,Name="P7", Category="Cat3"},
+                new Product(){ ProductId=7,Name="P7", Category="Cat3"}
             }.AsQueryable()
                 );
 
@@ -165,6 +165,41 @@ namespace SportsStore.UnitTests
             Assert.AreEqual("Cat2", result.CurrentCategory);
             Assert.IsTrue(products[0].Name=="P5"&&products[0].Category=="Cat2");
 
+        }
+
+        [TestMethod]
+        public void Generate_Category_Specific_Product_Count()
+        {
+            //Arrange
+            Mock<IProductRepository> mock = new Mock<IProductRepository>();
+            mock.Setup(p => p.Products).Returns(new Product[]{
+                new Product(){ ProductId=1,Name="P1", Category="Cat1"},
+                new Product(){ ProductId=2,Name="P2", Category="Cat1"},
+                new Product(){ ProductId=3,Name="P3", Category="Cat2"},
+                new Product(){ ProductId=4,Name="P4", Category="Cat2"},
+                new Product(){ ProductId=5,Name="P5", Category="Cat2"},
+                new Product(){ ProductId=6,Name="P6", Category="Cat3"},
+                new Product(){ ProductId=7,Name="P7", Category="Cat3"},
+                new Product(){ ProductId=8,Name="P8", Category="Cat3"},
+                new Product(){ ProductId=9,Name="P9", Category="Cat3"},
+            }.AsQueryable()
+                );
+
+            ProductController controller = new ProductController(mock.Object);
+            controller.PageSize = 2;
+
+            //Action
+            int cat1Count = ((ProductsListViewModel)controller.List("Cat1", 1).Model).PagingInfo.TotalItems;
+            int cat2Count = ((ProductsListViewModel)controller.List("Cat2", 1).Model).PagingInfo.TotalItems;
+            int cat3Count = ((ProductsListViewModel)controller.List("Cat3", 1).Model).PagingInfo.TotalItems;
+
+            int allCount = ((ProductsListViewModel)controller.List(null, 1).Model).PagingInfo.TotalItems;
+
+            //Assert
+            Assert.AreEqual(cat1Count, 2);
+            Assert.AreEqual(cat2Count, 3);
+            Assert.AreEqual(cat3Count, 4);
+            Assert.AreEqual(allCount, 9);
         }
     }
 }
