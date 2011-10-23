@@ -103,3 +103,8 @@ border-bottom: 1px solid silver;
 DIV#categories A.selected { background-color: #666; color: White; }
 DIV#categories A:hover { background-color: #CCC; }
 DIV#categories A.selected:hover { background-color: #666; }
+FORM { margin: 0; padding: 0; }
+DIV.item FORM { float:right; }
+DIV.item INPUT {
+color:White; background-color: #333; border: 1px solid black; cursor:pointer;
+}
