@@ -66,6 +66,8 @@ namespace SportsStore.WebUI
             RegisterRoutes(RouteTable.Routes);
 
             ControllerBuilder.Current.SetControllerFactory(new NinjectControllerFactory());
+            ModelBinders.Binders.Add(typeof(SportsStore.Domain.Entities.Cart), new SportsStore.WebUI.Binders.CartModelBinder());
+
         }
     }
 }
