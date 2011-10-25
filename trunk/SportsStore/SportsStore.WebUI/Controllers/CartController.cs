@@ -44,6 +44,15 @@ namespace SportsStore.WebUI.Controllers
             return RedirectToAction("Index", new { returnUrl });
         }
 
+        public ViewResult Summary(Cart cart)
+        {
+            return View(cart);
+        }
+
+        public ViewResult Checkout()
+        {
+            return View(new ShippingDetails());
+        }
         //private Cart GetCart()
         //{
         //    Cart cart = (Cart)Session["Cart"];
