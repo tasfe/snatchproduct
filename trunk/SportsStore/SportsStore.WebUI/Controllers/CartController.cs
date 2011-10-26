@@ -12,6 +12,7 @@ namespace SportsStore.WebUI.Controllers
     public class CartController : Controller
     {
         IProductRepository repository = null;
+        IOrderProcessor orderProcessor = null;
         public CartController(IProductRepository productRespository)
         {
             repository = productRespository;
