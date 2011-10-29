@@ -157,13 +157,13 @@ namespace SportsStore.UnitTests
             controller.PageSize = 2;
 
             //Action
-           var result= controller.List("Cat2", 2).Model as ProductsListViewModel;
+            var result = controller.List("Cat2", 2).Model as ProductsListViewModel;
 
             //Assert
-            Product [] products= result.Products.ToArray();
+            Product[] products = result.Products.ToArray();
             Assert.AreEqual(products.Length, 1);
             Assert.AreEqual("Cat2", result.CurrentCategory);
-            Assert.IsTrue(products[0].Name=="P5"&&products[0].Category=="Cat2");
+            Assert.IsTrue(products[0].Name == "P5" && products[0].Category == "Cat2");
 
         }
 
@@ -200,6 +200,47 @@ namespace SportsStore.UnitTests
             Assert.AreEqual(cat2Count, 3);
             Assert.AreEqual(cat3Count, 4);
             Assert.AreEqual(allCount, 9);
+        }
+
+        [TestMethod]
+        public void Can_Retrieve_Image_Data()
+        {
+            Product prop = new Product() { ProductId = 2, Name = "P2", ImageData = new byte[] { }, ImageMimeType = "image/png" };
+            Mock<IProductRepository> mock = new Mock<IProductRepository>();
+            mock.Setup(p => p.Products).Returns(new Product[]{
+            new Product{ ProductId=1,Name="P1"},
+            prop,
+            new Product{ProductId=1,Name="P3"}
+            }.AsQueryable());
+
+            ProductController target = new ProductController(mock.Object);
+
+            //act
+            ActionResult result = target.GetImage(2);
+
+            //Assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOfType(result, typeof(FileResult));
+            Assert.AreEqual(prop.ImageMimeType, ((FileResult)result).ContentType);
+        }
+        [TestMethod]
+        public void Cannot_Retrieve_Image_Data_For_Invalid_ID()
+        {
+            Product prop = new Product() { ProductId = 2, Name = "P2", ImageData = new byte[] { }, ImageMimeType = "image/png" };
+            Mock<IProductRepository> mock = new Mock<IProductRepository>();
+            mock.Setup(p => p.Products).Returns(new Product[]{
+            new Product{ ProductId=1,Name="P1"},
+            prop,
+            new Product{ProductId=1,Name="P3"}
+            }.AsQueryable());
+
+            ProductController target = new ProductController(mock.Object);
+
+            //act
+            ActionResult result = target.GetImage(1000);
+
+            //Assert
+            Assert.IsNull(result);
         }
     }
 }
