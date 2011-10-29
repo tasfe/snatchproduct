@@ -115,7 +115,7 @@ namespace SportsStore.UnitTests
             Assert.IsNotNull(result);
             Assert.AreEqual(result.ProductId, 1);
             Assert.AreEqual(result.Name, "P1");
-                 
+
         }
 
         [TestMethod]
@@ -142,10 +142,10 @@ namespace SportsStore.UnitTests
             //Arrange
             Mock<IProductRepository> mock = new Mock<IProductRepository>();
             AdminController target = new AdminController(mock.Object);
-            Product product = new Product {  Name="Test"};
+            Product product = new Product { Name = "Test" };
 
             //act
-            ActionResult result = target.Edit(product);
+            ActionResult result = target.Edit(product,null);
 
             //Assert
             mock.Verify(m => m.SaveProduct(product));
@@ -161,12 +161,50 @@ namespace SportsStore.UnitTests
 
             target.ModelState.AddModelError("error", "error");
             //act
-            ActionResult result = target.Edit(product);
+            ActionResult result = target.Edit(product,null);
 
             mock.Verify(m => m.SaveProduct(It.IsAny<Product>()), Times.Never());
             Assert.IsInstanceOfType(result, typeof(ViewResult));
+        }
 
+        [TestMethod]
+        public void Can_Delete_Valid_Products()
+        {
+            //Arrange
+            Product prod = new Product { ProductId = 2, Name = "P2" };
+            Mock<IProductRepository> mock = new Mock<IProductRepository>();
+            mock.Setup(p => p.Products).Returns(new Product[]{
+            new Product{ProductId=1,Name="P1"},
+            prod,
+            new Product { ProductId=3,Name="P3"}
+            }.AsQueryable());
 
+            AdminController target = new AdminController(mock.Object);
+
+            //Act
+            target.Delete(prod.ProductId);
+
+            //Assert
+            mock.Verify(m => m.DeleteProduct(prod));
+
+        }
+        [TestMethod]
+        public void Cannot_Delete_Invalid_Products()
+        {
+            //Arrange
+            Mock<IProductRepository> mock = new Mock<IProductRepository>();
+            mock.Setup(p => p.Products).Returns(new Product[]{
+            new Product{ProductId=1,Name="P1"},
+            new Product { ProductId = 2, Name = "P2" },
+            new Product { ProductId=3,Name="P3"}
+            }.AsQueryable());
+            AdminController target = new AdminController(mock.Object);
+
+            //Act
+            target.Delete(100);
+
+            //Assert
+            mock.Verify(m => m.DeleteProduct(It.IsAny<Product>()), Times.Never());
         }
     }
 }

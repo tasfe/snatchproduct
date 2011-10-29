@@ -43,7 +43,7 @@ namespace SportsStore.WebUI.Infrastructure
             EmailSettings emailSetting = new EmailSettings() { WriteAsFile = bool.Parse(ConfigurationManager.AppSettings["Email.WriteAsFile"] ?? "false") };
             ninjectKernel.Bind<IOrderProcessor>().To<EmailOrderProcessor>().WithConstructorArgument("settings", emailSetting);
 
-
+            ninjectKernel.Bind<IAuthProvider>().To<FormsAuthProvider>();
         }
 
     }
