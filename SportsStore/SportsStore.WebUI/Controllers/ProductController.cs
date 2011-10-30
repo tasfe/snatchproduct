@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using SportsStore.Domain.Abstract;
 using SportsStore.WebUI.Models;
 using SportsStore.Domain.Entities;
+using SportsStore.Domain.Concrete;
 
 namespace SportsStore.WebUI.Controllers
 {
@@ -13,7 +14,10 @@ namespace SportsStore.WebUI.Controllers
     {
         public int PageSize = 3;
         private IProductRepository repository;
-
+        //public ProductController()
+        //{
+        //    repository = new EFProductRepository();
+        //}
         public ProductController(IProductRepository productsRepository)
         {
             repository = productsRepository;

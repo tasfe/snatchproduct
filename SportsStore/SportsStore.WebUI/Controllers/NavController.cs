@@ -4,12 +4,18 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using SportsStore.Domain.Abstract;
+using SportsStore.Domain.Concrete;
 
 namespace SportsStore.WebUI.Controllers
 {
     public class NavController : Controller
     {
         private IProductRepository reporsitory = null;
+
+        //public NavController()
+        //{
+        //    reporsitory = new EFProductRepository();
+        //}
         public NavController(IProductRepository productRepository)
         {
             reporsitory = productRepository;

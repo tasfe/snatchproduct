@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using SportsStore.Domain.Abstract;
 using SportsStore.Domain.Entities;
 using SportsStore.WebUI.Models;
+using SportsStore.Domain.Concrete;
 
 namespace SportsStore.WebUI.Controllers
 {
@@ -13,6 +14,12 @@ namespace SportsStore.WebUI.Controllers
     {
         IProductRepository repository = null;
         IOrderProcessor orderProcessor = null;
+
+        //public CartController()
+        //{
+        //    repository = new EFProductRepository();
+        //    orderProcessor = new EmailOrderProcessor(new EmailSettings());
+        //}
         public CartController(IProductRepository productRespository,IOrderProcessor processor)
         {
             repository = productRespository;

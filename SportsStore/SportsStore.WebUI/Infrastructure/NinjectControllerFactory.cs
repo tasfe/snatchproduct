@@ -27,6 +27,7 @@ namespace SportsStore.WebUI.Infrastructure
             return controllerType == null
                 ? null
                 : (IController)ninjectKernel.Get(controllerType);
+            //return base.GetControllerInstance(requestContext, controllerType);
         }
         private void AddBindings()
         {

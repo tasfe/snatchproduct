@@ -11,6 +11,11 @@ namespace SportsStore.WebUI.Controllers
     public class AccountController : Controller
     {
         IAuthProvider authProvider;
+        //public AccountController()
+        //{
+        //    authProvider = new FormsAuthProvider();
+        //}
+      
         public AccountController(IAuthProvider auth)
         {
             authProvider = auth;
