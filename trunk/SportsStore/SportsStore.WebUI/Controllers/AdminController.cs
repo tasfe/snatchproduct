@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using SportsStore.Domain.Abstract;
 using SportsStore.Domain.Entities;
+using SportsStore.Domain.Concrete;
 
 namespace SportsStore.WebUI.Controllers
 {
@@ -12,6 +13,10 @@ namespace SportsStore.WebUI.Controllers
     public class AdminController : Controller
     {
         private IProductRepository repository;
+        //public AdminController()
+        //{
+        //    repository = new EFProductRepository();
+        //}
         public AdminController(IProductRepository repo)
         {
             repository = repo;
