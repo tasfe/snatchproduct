@@ -71,13 +71,15 @@ namespace UrlsAndRoutes.Tests
         [TestMethod]
         public void TestIncomingRoutes()
         {
-            // check for the URL that we hope to receive
-            TestRouteMatch("~/Admin/Index", "Admin", "Index");
-            // check that the values are being obtained from the segments
-            TestRouteMatch("~/One/Two", "One", "Two");
-            // ensure that too many or too few segments fails to match
-            TestRouteFail("~/Admin/Index/Segment");
-            TestRouteFail("~/Admin");
+            //// check for the URL that we hope to receive
+            //TestRouteMatch("~/Admin/Index", "Admin", "Index");
+            //// check that the values are being obtained from the segments
+            //TestRouteMatch("~/One/Two", "One", "Two");
+            //// ensure that too many or too few segments fails to match
+            //TestRouteFail("~/Admin/Index/Segment");
+            //TestRouteFail("~/Admin");
+
+            TestRouteMatch("~/Shop/Index", "Home", "Index");
         }
 
         private void TestRouteMatch(string url, string controller, string action, object routeProperties = null, string httpMethod = "GET")
