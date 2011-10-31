@@ -79,7 +79,35 @@ namespace UrlsAndRoutes.Tests
             //TestRouteFail("~/Admin/Index/Segment");
             //TestRouteFail("~/Admin");
 
-            TestRouteMatch("~/Shop/Index", "Home", "Index");
+            //TestRouteMatch("~/Shop/Index", "Home", "Index");
+
+            //TestRouteMatch("~/", "Home", "Index", new { id = "DefaultId" });
+            //TestRouteMatch("~/Customer", "Customer", "index", new { id = "DefaultId" });
+            //TestRouteMatch("~/Customer/List", "Customer", "List", new { id = "DefaultId" });
+            //TestRouteMatch("~/Customer/List/All", "Customer", "List", new { id = "All" });
+            //TestRouteFail("~/Customer/List/All/Delete");
+
+            TestRouteMatch("~/", "Home", "Index");
+            TestRouteMatch("~/Home", "Home", "Index");
+            TestRouteMatch("~/Home/Index", "Home", "Index");
+            TestRouteMatch("~/Home/About", "Home", "About");
+            TestRouteMatch("~/Home/About/MyId", "Home", "About", new { id = "MyId" });
+            TestRouteMatch("~/Home/About/MyId/More/Segments", "Home", "About",
+            new
+            {
+                id = "MyId",
+                catchall = "More/Segments"
+            });
+            TestRouteFail("~/Home/OtherAction");
+            TestRouteFail("~/Account/Index");
+            TestRouteFail("~/Account/About");
+        }
+
+        [TestMethod]
+        public void RegisterRoutesTest()
+        {
+            TestRouteMatch("~/", "Home", "Index", null, "GET");
+            TestRouteFail("~/", "POST");
         }
 
         private void TestRouteMatch(string url, string controller, string action, object routeProperties = null, string httpMethod = "GET")
@@ -94,13 +122,13 @@ namespace UrlsAndRoutes.Tests
             Assert.IsTrue(TestIncomingRouteResult(result, controller, action, routeProperties));
         }
 
-        private void TestRouteFail(string url)
+        private void TestRouteFail(string url,string httpMethod = "GET")
         {
             // Arrange
             RouteCollection routes = new RouteCollection();
             MvcApplication.RegisterRoutes(routes);
             // Act - process the route
-            RouteData result = routes.GetRouteData(CreateHttpContext(url));
+            RouteData result = routes.GetRouteData(CreateHttpContext(url, httpMethod));
             // Assert
             Assert.IsTrue(result == null || result.Route == null);
         }

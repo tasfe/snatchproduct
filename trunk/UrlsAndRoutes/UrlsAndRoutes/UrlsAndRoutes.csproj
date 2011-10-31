@@ -149,6 +149,12 @@
   <ItemGroup>
     <Content Include="Views\Home\CustomVariable.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AdditionalControllers\AdditionalControllers.csproj">
+      <Project>{A9B94F61-8087-4E03-A3A2-81D4AFDB37CB}</Project>
+      <Name>AdditionalControllers</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
