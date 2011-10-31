@@ -19,13 +19,27 @@ namespace UrlsAndRoutes
 
         public static void RegisterRoutes(RouteCollection routes)
         {
+            //            routes.MapRoute("AddContollerRoute", "Home/{action}/{id}/{*catchall}",
+            //new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+            //new[] { "AdditionalControllers" });
 
-            routes.MapRoute("ShopSchema2", "Shop/OldAction",new { controller = "Home", action = "Index" });
-            routes.MapRoute("ShopSchema", "Shop/{action}", new { controller = "Home" });
+            //            routes.MapRoute("MyRoute", "{controller}/{action}/{id}/{*catchall}", new { controller = "Home", action = "Index", id = UrlParameter.Optional }, new[] { "URLsAndRoutes.Controllers" });
 
-            //Route myRoute = new Route("{controller}/{action}", new MvcRouteHandler());
-            //routes.Add("MyRoute", myRoute);
-            routes.MapRoute("MyRoute", "{controller}/{action}", new { controller = "Home", action = "Index" });
+            routes.MapRoute("MyRoute", "{controller}/{action}/{id}/{*catchall}",
+new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+new
+{
+    controller = "^H.*",
+    action = "Index|About",
+    httpMethod = new HttpMethodConstraint("GET")
+},
+new[] { "URLsAndRoutes.Controllers" });
+            //routes.MapRoute("ShopSchema2", "Shop/OldAction",new { controller = "Home", action = "Index" });
+            //routes.MapRoute("ShopSchema", "Shop/{action}", new { controller = "Home" });
+
+            ////Route myRoute = new Route("{controller}/{action}", new MvcRouteHandler());
+            ////routes.Add("MyRoute", myRoute);
+            //routes.MapRoute("MyRoute", "{controller}/{action}", new { controller = "Home", action = "Index" });
 
             //routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 

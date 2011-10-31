@@ -19,9 +19,10 @@ namespace UrlsAndRoutes.Controllers
         {
             return View();
         }
-        public ViewResult CustomVariable()
+        public ViewResult CustomVariable(string action,string id)
         {
-            ViewBag.CustomVariable = RouteData.Values["id"];
+            ViewBag.CustomVariable = id;
+            ViewBag.ActionName = action;
             return View();
         }
     }
