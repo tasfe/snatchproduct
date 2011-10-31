@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using UrlsAndRoutes.Infrastructure;
 
 namespace UrlsAndRoutes
 {
@@ -31,7 +32,8 @@ new
 {
     controller = "^H.*",
     action = "Index|About",
-    httpMethod = new HttpMethodConstraint("GET")
+    httpMethod = new HttpMethodConstraint("GET"),
+    customConstraint = new UserAgentConstraint("IE")
 },
 new[] { "URLsAndRoutes.Controllers" });
             //routes.MapRoute("ShopSchema2", "Shop/OldAction",new { controller = "Home", action = "Index" });
