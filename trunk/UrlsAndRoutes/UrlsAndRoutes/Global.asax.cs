@@ -26,16 +26,30 @@ namespace UrlsAndRoutes
 
             //            routes.MapRoute("MyRoute", "{controller}/{action}/{id}/{*catchall}", new { controller = "Home", action = "Index", id = UrlParameter.Optional }, new[] { "URLsAndRoutes.Controllers" });
 
-            routes.MapRoute("MyRoute", "{controller}/{action}/{id}/{*catchall}",
-new { controller = "Home", action = "Index", id = UrlParameter.Optional },
-new
-{
-    controller = "^H.*",
-    action = "Index|About",
-    httpMethod = new HttpMethodConstraint("GET"),
-    customConstraint = new UserAgentConstraint("IE")
-},
-new[] { "URLsAndRoutes.Controllers" });
+            //            routes.RouteExistingFiles = true;
+            //            routes.MapRoute("DiskFile", "Content/StaticContent.html",
+            //            new
+            //            {
+            //                controller = "Account",
+            //                action = "LogOn",
+            //            },
+            //            new
+            //            {
+            //                customConstraint = new UserAgentConstraint("IE")
+            //            });
+            //            routes.IgnoreRoute("Content/{filename}.html");
+            //            routes.MapRoute("MyNewRoute", "{controller}/{action}");
+
+            //            routes.MapRoute("MyRoute", "{controller}/{action}/{id}/{*catchall}",
+            //new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+            //new
+            //{
+            //    controller = "^H.*",
+            //    action = "Index|About",
+            //    httpMethod = new HttpMethodConstraint("GET"),
+            //    customConstraint = new UserAgentConstraint("IE")
+            //},
+            //new[] { "URLsAndRoutes.Controllers" });
             //routes.MapRoute("ShopSchema2", "Shop/OldAction",new { controller = "Home", action = "Index" });
             //routes.MapRoute("ShopSchema", "Shop/{action}", new { controller = "Home" });
 
@@ -50,6 +64,10 @@ new[] { "URLsAndRoutes.Controllers" });
             //    "{controller}/{action}/{id}", // 带有参数的 URL
             //    new { controller = "Home", action = "Index", id = UrlParameter.Optional } // 参数默认值
             //);
+
+            routes.MapRoute("MyRoute",
+                "{controller}/{action}/{id}",
+                new { controller = "Home", action = "Index", id = UrlParameter.Optional });
 
         }
 
