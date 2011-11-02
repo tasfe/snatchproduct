@@ -4,3 +4,12 @@
 
 <h2>Variable: @ViewBag.CustomVariable</h2>
 ActionName:@ViewBag.ActionName
+
+
+@Html.ActionLink("About this application", "Index", "Home", null,
+new {id = "myAnchorID", @class = "myCSSClass"})
+
+@Html.ActionLink("About this application", "Index", "Home",
+"https", "myserver.mydomain.com", " myFragmentName",
+new { id = "MyId"},
+new { id = "myAnchorID", @class = "myCSSClass"})
