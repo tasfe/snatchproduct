@@ -84,6 +84,7 @@
     <Compile Include="Infrastructure\FormsAuthProvider.cs" />
     <Compile Include="Infrastructure\IAuthProvider.cs" />
     <Compile Include="Infrastructure\NinjectControllerFactory.cs" />
+    <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Models\CartIndexViewModel.cs" />
     <Compile Include="Models\LogOnViewModel.cs" />
     <Compile Include="Models\PagingInfo.cs" />
